@@ -1,3 +1,5 @@
+//Second task: To automate login details of the given website by using selenium and testng.
+
 package Test02;
 
 import org.openqa.selenium.By;
