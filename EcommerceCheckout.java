@@ -141,6 +141,31 @@ public class EcommerceCheckout {
     	Assert.assertTrue(returnedToHome.getText().contains("Products"));
     	System.out.println("✅ Returned back to Home Successfully!");
     }
+    @Test(priority = 9)
+	public void BrokenLinks() throws IOException {
+		
+		List<WebElement> links = driver.findElements(By.tagName("a"));
+		System.out.println("The total links are: " + links.size());
+		for (int i = 0; i < links.size(); i++) {
+			//verifyig the links
+			WebElement element = links.get(i);
+			String url = element.getAttribute("href");
+			//setup the HTTP connection.
+			URL link = new URL(url);
+			HttpURLConnection httpConn = (HttpURLConnection) link.openConnection();
+			httpConn.connect();
+			//getting the response code for checking broken links.
+			int ResponseCode = httpConn.getResponseCode();
+			if (ResponseCode >= 400) {
+				System.out.println("Broken Link: " + url + "|" + "Response code: " + ResponseCode);
+			} else {
+				System.out.println("Valid Link: " + url + "|" + "Response code: " + ResponseCode);
+			}
+		}
+		System.out.println();
+		System.out.println("All links are checked Successfully!");
+	}
+
 
     @AfterClass
     public void tearDown() {
